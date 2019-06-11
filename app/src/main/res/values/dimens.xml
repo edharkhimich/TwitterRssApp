@@ -4,6 +4,8 @@
     <!--Screen -->
     <dimen name="screen_edge_standard_margin">16dp</dimen>
     <dimen name="screen_standard_margin">8dp</dimen>
+    <dimen name="screen_margin60">60dp</dimen>
+    <dimen name="screen_margin185">185dp</dimen>
 
 
 </resources>

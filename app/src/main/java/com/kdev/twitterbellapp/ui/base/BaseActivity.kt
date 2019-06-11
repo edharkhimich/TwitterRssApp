@@ -24,6 +24,8 @@ import com.kdev.twitterbellapp.utils.Constants.LOCATION_KEY
 import com.kdev.twitterbellapp.utils.Constants.PERMISSIONS_REQUEST_COARSE_LOCATION
 import com.kdev.twitterbellapp.utils.Constants.REQUEST_CHECK_SETTINGS
 import com.kdev.twitterbellapp.utils.Constants.REQUEST_ENABLE_GPS
+import com.kdev.twitterbellapp.utils.common.TwitterViewModelFactory
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 import com.kdev.twitterbellapp.utils.navigation.AppNavigator
 import com.kdev.twitterbellapp.utils.network.isNetworkEnable
 import com.kdev.twitterbellapp.utils.view.showDialog
@@ -40,6 +42,8 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     private lateinit var locationCallback: LocationCallback
 
     private var locationRequest: LocationRequest? = null
+
+    private val viewModelFactory by lazy { TwitterViewModelFactory(PrefsManager.getInstance(this)) }
 
     @LayoutRes
     abstract fun getLayoutId(): Int
@@ -192,7 +196,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     open fun observeViewModel() {}
 
     open fun getViewModeld(): VM {
-        return ViewModelProviders.of(this).get(viewModelClass)
+        return ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
     }
 
     protected fun isInternetConnected(): Boolean {

@@ -2,8 +2,9 @@ package com.kdev.twitterbellapp.ui.title
 
 import android.location.Location
 import com.kdev.twitterbellapp.ui.base.BaseViewModel
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 
-class TitleViewModel: BaseViewModel() {
+class TitleViewModel(prefsManager: PrefsManager): BaseViewModel(prefsManager) {
 
     init {
 

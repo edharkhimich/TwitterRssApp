@@ -14,5 +14,7 @@ object Constants {
 
     //Keys
     const val LOCATION_KEY = "location"
+    const val TOKEN_KEY = "token_key"
+    const val SECRET_KEY = "secret_key"
 
 }

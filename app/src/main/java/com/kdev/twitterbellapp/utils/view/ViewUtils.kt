@@ -3,6 +3,7 @@ package com.kdev.twitterbellapp.utils.view
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
@@ -55,4 +56,8 @@ fun Activity.showDialog(
         create()
         show()
     }
+}
+
+fun View.click(action: () -> Unit){
+    setOnClickListener { action }
 }

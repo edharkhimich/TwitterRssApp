@@ -2,8 +2,12 @@ package com.kdev.twitterbellapp.data.repository
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
+import com.kdev.twitterbellapp.utils.Constants.SECRET_KEY
+import com.kdev.twitterbellapp.utils.Constants.TOKEN_KEY
+import com.kdev.twitterbellapp.utils.common.SingletonHolder
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 
-object DataRepositoryImpl: DataRepository {
+class DataRepositoryImpl constructor(private val prefs: PrefsManager): DataRepository {
 
     private val lastKnownLocation = MutableLiveData<Location>()
 
@@ -19,5 +23,12 @@ object DataRepositoryImpl: DataRepository {
 
     }
 
+    override fun saveAuthData(token: String, secret: String) {
+        prefs.run {
+            saveString(TOKEN_KEY, token)
+            saveString(SECRET_KEY, secret)
+        }
+    }
 
+    companion object : SingletonHolder<DataRepositoryImpl, PrefsManager>(::DataRepositoryImpl)
 }

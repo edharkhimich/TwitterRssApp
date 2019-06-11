@@ -9,5 +9,7 @@ interface DataRepository {
     fun getObservableLastKnownDeviceLocation(): MutableLiveData<Location>
     fun setLastKnownDeviceLocation(location: Location?)
 
+    fun saveAuthData(token: String, secret: String)
+
     fun fetchTweetsByLocation()
 }

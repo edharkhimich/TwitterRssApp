@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kdev.twitterbellapp.data.repository.DataRepositoryImpl
 import com.kdev.twitterbellapp.utils.callback.Response
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel(prefsManager: PrefsManager) : ViewModel() {
 
-    protected val dataRepository by lazy { DataRepositoryImpl }
+    protected val dataRepository by lazy { DataRepositoryImpl(prefsManager) }
 
     protected val response = MutableLiveData<Response<Any>>()
 
