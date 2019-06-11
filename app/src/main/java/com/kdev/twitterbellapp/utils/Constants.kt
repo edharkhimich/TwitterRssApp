@@ -20,6 +20,9 @@ object Constants {
     const val SECRET_KEY = "secret_key"
     const val MODE_KEY = "mode_key"
 
+    //Map
+    const val ZOOM_VALUE = 14f
+
     //Common
     const val DEF = ""
 

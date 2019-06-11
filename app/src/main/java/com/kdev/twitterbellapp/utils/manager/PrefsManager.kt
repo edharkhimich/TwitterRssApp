@@ -14,7 +14,7 @@ class PrefsManager private constructor(context: Context) {
             apply()
         }
     }
-    
+
     fun receiveString(key: String, defValue: String): String? = sharedPreferences.getString(key, defValue)
 
     companion object : SingletonHolder<PrefsManager, Context>(::PrefsManager) {

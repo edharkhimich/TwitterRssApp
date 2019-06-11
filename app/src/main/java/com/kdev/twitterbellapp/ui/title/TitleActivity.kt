@@ -1,5 +1,6 @@
 package com.kdev.twitterbellapp.ui.title
 
+import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Bundle
 import android.view.View.GONE
@@ -12,10 +13,12 @@ import com.kdev.twitterbellapp.ui.base.BaseActivity
 import com.kdev.twitterbellapp.utils.Constants.GUEST_MODE
 import com.kdev.twitterbellapp.utils.Constants.LOCATION_KEY
 import com.kdev.twitterbellapp.utils.Constants.MODE_KEY
-import com.kdev.twitterbellapp.utils.manager.PrefsManager
 import com.kdev.twitterbellapp.utils.view.showToast
 import kotlinx.android.synthetic.main.activity_title.*
 import timber.log.Timber
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.kdev.twitterbellapp.utils.Constants.ZOOM_VALUE
 
 
 class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), OnMapReadyCallback {
@@ -24,6 +27,7 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
         .findFragmentById(R.id.title_map) as SupportMapFragment? }
 
     private val mode by lazy { intent?.getByteExtra(MODE_KEY, GUEST_MODE) }
+    private var map: GoogleMap? = null
 
     override fun getLayoutId(): Int = R.layout.activity_title
 
@@ -43,7 +47,8 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
         title_progress_bar.visibility = GONE
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
+    override fun onMapReady(map: GoogleMap?) {
+        this.map = map
         checkLocation()
     }
 
@@ -53,20 +58,33 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
                 if (location == null) {
                     Timber.d("location == null")
                     showToast("Np location")
-                } else {
-                    Timber.d("location != null -> ${location.latitude} / ${location.longitude}")
-                    _vm.fetchData(location)
-                }
+                } else bindMap(location)
             })
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun animateMap(location: Location){
+        val latLng = LatLng(location.latitude, location.longitude)
+        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_VALUE)
+
+        map?.animateCamera(cameraUpdate)
+        map?.isMyLocationEnabled = true
     }
 
     private fun checkLocation(){
         if(vm?.getLastKnownDeviceLocation() == null) {
             requestLastKnownLocation()
         } else {
-            Timber.d("location is not null ${vm?.getLastKnownDeviceLocation()}" )
+            vm?.getLastKnownDeviceLocation()?.let { location ->
+                bindMap(location)
+            }
         }
+    }
+
+    private fun bindMap(location: Location){
+        vm?.fetchData(location)
+        animateMap(location)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

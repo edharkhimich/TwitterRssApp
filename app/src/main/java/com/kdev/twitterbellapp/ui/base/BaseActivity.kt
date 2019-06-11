@@ -51,7 +51,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             setContentView(getLayoutId())
             vm = getViewModeld()
 
@@ -90,7 +90,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
                 GPS_MODE,
                 resources.getString(R.string.enable_location),
                 resources.getString(R.string.enable_location_description),
-                resources.getString(R.string.enable), { checkGpsSettings()})
+                resources.getString(R.string.enable), { checkGpsSettings() })
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -146,9 +146,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
         task.addOnSuccessListener { requestLocationUpdates() }
         task.addOnFailureListener { exception ->
             if (exception is ResolvableApiException) {
-                // Location settings are not satisfied, but this can be fixed by showing the user a dialog.
                 try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
                     exception.startResolutionForResult(this, REQUEST_CHECK_SETTINGS)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     showToast(getString(R.string.failed_to_get_device_location))
@@ -174,8 +172,6 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.d("onActivityResult ${requestCode}")
-
         when (requestCode) {
             REQUEST_ENABLE_GPS -> {
                 if (isGpsEnabled())
@@ -211,5 +207,11 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(LOCATION_KEY, vm?.getLastKnownDeviceLocation())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(::locationCallback.isInitialized)
+            fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 }
