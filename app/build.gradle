@@ -24,11 +24,28 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.core:core-ktx:1.2.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlinVer"
+
+    //Architecture Lifestyle
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleCompilerVer"
+    implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.archLifecycleVer"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleExtensionsVer"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVer"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timberVer"
+
+    //Support
+    implementation "androidx.appcompat:appcompat:$rootProject.appComVer"
+    implementation "androidx.core:core-ktx:$rootProject.ktxVer"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVer"
+
+    //Google Map
+    implementation "com.google.android.gms:play-services-maps:$rootProject.googleMapsPlayServeciesVer"
+    implementation "com.google.android.gms:play-services-location:$rootProject.googleMapsVer"
+
+    //Tests
+    testImplementation "junit:junit:$rootProject.jUnitVer"
+    androidTestImplementation "androidx.test:runner:$rootProject.testRunnerVer"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVer"
 }

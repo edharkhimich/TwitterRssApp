@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TwitterBellApp</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="failed_to_get_device_location">Failed to get device location</string>
+    <string name="cancel">Cancel</string>
+    <string name="enable_location">Enable location</string>
+    <string name="enable_location_description">Please enable your location for correct application work</string>
+    <string name="enable">Enable</string>
+    <string name="settings_disabled">Settings disabled</string>
+    <string name="location_disabled">Location disabled</string>
 </resources>
