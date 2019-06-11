@@ -36,7 +36,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
 
     protected var vm: VM? = null
     protected var savedLocation: Location? = null
-    protected val appNavigator by lazy { AppNavigator(this) }
+    protected val navigator by lazy { AppNavigator(this) }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -115,7 +115,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
         if (isGpsEnabled())
             retrieveLastKnownLocation()
         else
-            appNavigator.navigateToGpsSettings()
+            navigator.navigateToGpsSettings()
     }
 
     @SuppressLint("MissingPermission")

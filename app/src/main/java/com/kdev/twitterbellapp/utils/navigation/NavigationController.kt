@@ -16,7 +16,7 @@ class NavigationController(private val activity: FragmentActivity) : Navigator {
         activity.startActivityForResult(Intent(action), requestCode)
     }
 
-    override fun startActivity(activityClass: Class<out Activity>, args: Bundle?, requestCode: Int?, newTask: Boolean) {
+    override fun startActivity(activityClass: Class<out Activity>, args: Bundle?, newTask: Boolean) {
 
         val intent = Intent(activity, activityClass)
 
@@ -26,8 +26,6 @@ class NavigationController(private val activity: FragmentActivity) : Navigator {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or FLAG_ACTIVITY_CLEAR_TASK
         }
 
-        if (requestCode != null) activity.startActivityForResult(intent, requestCode)
-        else activity.startActivity(intent)
+        activity.startActivity(intent)
     }
-
 }

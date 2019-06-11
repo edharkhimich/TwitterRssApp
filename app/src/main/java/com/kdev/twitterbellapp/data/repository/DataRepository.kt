@@ -10,6 +10,7 @@ interface DataRepository {
     fun setLastKnownDeviceLocation(location: Location?)
 
     fun saveAuthData(token: String, secret: String)
+    fun getToken(): String?
 
     fun fetchTweetsByLocation()
 }

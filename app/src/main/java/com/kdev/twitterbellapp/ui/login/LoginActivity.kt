@@ -2,29 +2,36 @@ package com.kdev.twitterbellapp.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.kdev.twitterbellapp.R
-import com.kdev.twitterbellapp.utils.common.TwitterViewModelFactory
-import com.kdev.twitterbellapp.utils.manager.PrefsManager
-import com.kdev.twitterbellapp.utils.view.showToast
+import com.kdev.twitterbellapp.ui.base.BaseActivity
+import com.kdev.twitterbellapp.utils.Constants.GUEST_MODE
+import com.kdev.twitterbellapp.utils.Constants.MODE_KEY
+import com.kdev.twitterbellapp.utils.Constants.USER_MODE
+import com.kdev.twitterbellapp.utils.callback.Response
+import com.twitter.sdk.android.core.*
 import kotlinx.android.synthetic.main.activity_login.*
-import com.twitter.sdk.android.core.TwitterException
-import com.twitter.sdk.android.core.TwitterSession
-import com.twitter.sdk.android.core.Callback
-import com.twitter.sdk.android.core.Result
-import com.twitter.sdk.android.core.TwitterCore
 
-class LoginActivity : AppCompatActivity() {
 
-    private val viewModelFactory by lazy { TwitterViewModelFactory(PrefsManager.getInstance(this)) }
-    private val vm by lazy { ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel::class.java) }
+class LoginActivity : BaseActivity<LoginViewModel>(LoginViewModel::class.java) {
+
+    override fun getLayoutId(): Int = R.layout.activity_login
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
-        setButtonCallback()
+        vm?.checkToken()
+    }
+
+    override fun observeViewModel() {
+        vm?.getResponse()?.observe(this, Observer {
+            when (it) {
+                is Response.Login.TokenReceived -> navigator.navigateToTitleActivity(Bundle().apply {
+                    putByte(MODE_KEY, USER_MODE)
+                })
+                is Response.Login.TokenFailed -> setButtonCallback()
+            }
+        })
     }
 
     /** Using the MVVM architecture and Repository pattern for login integration we also can use TwitterAuthClient
@@ -35,18 +42,19 @@ class LoginActivity : AppCompatActivity() {
             override fun success(result: Result<TwitterSession>?) {
                 val session = TwitterCore.getInstance().sessionManager.activeSession
                 val authToken = session.authToken
-                vm.saveAuthData(authToken.token, authToken.secret)
+
+                vm?.saveAuthData(authToken.token, authToken.secret)
+                navigator.navigateToTitleActivity(Bundle().apply { putByte(MODE_KEY, USER_MODE) })
             }
 
             override fun failure(exception: TwitterException?) {
-                showToast(getString(R.string.server_error))
+                navigator.navigateToTitleActivity(Bundle().apply { putByte(MODE_KEY, GUEST_MODE) })
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        login_button.onActivityResult(requestCode, resultCode, data);
+        login_button.onActivityResult(requestCode, resultCode, data)
     }
 }

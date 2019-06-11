@@ -14,19 +14,8 @@ class PrefsManager private constructor(context: Context) {
             apply()
         }
     }
-
-    fun saveBoolean(key: String, value: Boolean) {
-        with(sharedPreferences.edit()) {
-            putBoolean(key, value)
-            apply()
-        }
-    }
-
+    
     fun receiveString(key: String, defValue: String): String? = sharedPreferences.getString(key, defValue)
-
-    fun receiveBoolean(key: String, defValue: Boolean): Boolean = sharedPreferences.getBoolean(key, defValue)
-
-    fun isExists(key: String): Boolean = sharedPreferences.contains(key)
 
     companion object : SingletonHolder<PrefsManager, Context>(::PrefsManager) {
         const val SHARED_PREFS_NAME = "twitter_prefs"

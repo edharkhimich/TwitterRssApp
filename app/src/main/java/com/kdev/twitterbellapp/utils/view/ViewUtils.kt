@@ -10,6 +10,7 @@ import android.widget.Toast.LENGTH_LONG
 import android.widget.Toast.LENGTH_SHORT
 import com.kdev.twitterbellapp.R
 import com.kdev.twitterbellapp.utils.Constants.GPS_MODE
+import com.kdev.twitterbellapp.utils.Constants.GUEST_MODE
 
 private var toast: Toast? = null
 
@@ -44,6 +45,7 @@ fun Activity.showDialog(
                 if (nClick() == null) {
                     val error = when(mode){
                         GPS_MODE -> resources.getString(R.string.location_disabled)
+                        GUEST_MODE -> resources.getString(R.string.login_failure)
                         else -> resources.getString(R.string.settings_disabled)
                     }
                     dialog.cancel()

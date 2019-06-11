@@ -7,7 +7,7 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/login_logo"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/screen_margin250"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/screen_margin185"
         android:src="@drawable/twitter_logo"

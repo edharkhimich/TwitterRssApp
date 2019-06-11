@@ -2,14 +2,19 @@ package com.kdev.twitterbellapp.ui.title
 
 import android.location.Location
 import android.os.Bundle
+import android.view.View.GONE
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.kdev.twitterbellapp.R
 import com.google.android.gms.maps.SupportMapFragment
 import com.kdev.twitterbellapp.ui.base.BaseActivity
+import com.kdev.twitterbellapp.utils.Constants.GUEST_MODE
 import com.kdev.twitterbellapp.utils.Constants.LOCATION_KEY
+import com.kdev.twitterbellapp.utils.Constants.MODE_KEY
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 import com.kdev.twitterbellapp.utils.view.showToast
+import kotlinx.android.synthetic.main.activity_title.*
 import timber.log.Timber
 
 
@@ -18,6 +23,8 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
     private val mapFragment by lazy { supportFragmentManager
         .findFragmentById(R.id.title_map) as SupportMapFragment? }
 
+    private val mode by lazy { intent?.getByteExtra(MODE_KEY, GUEST_MODE) }
+
     override fun getLayoutId(): Int = R.layout.activity_title
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,24 +32,18 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
 
         if(savedInstanceState == null) {
             init()
-        } else savedLocation
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(vm?.getLastKnownDeviceLocation() == null){
-
+            if(mode == GUEST_MODE) showToast(resources.getString(R.string.your_loged_in_as_guest))
         }
     }
 
     private fun init(){
         if(isInternetConnected()) {
             mapFragment?.getMapAsync(this)
-        }
+        } else showToast(getString(R.string.no_internet_connection))
+        title_progress_bar.visibility = GONE
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        Timber.d("onMapReady")
         checkLocation()
     }
 
@@ -72,6 +73,4 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
         super.onSaveInstanceState(outState)
         outState.putParcelable(LOCATION_KEY, vm?.getLastKnownDeviceLocation())
     }
-
-
 }

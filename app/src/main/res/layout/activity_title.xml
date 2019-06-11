@@ -17,4 +17,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
+    <ProgressBar
+        android:id="@+id/title_progress_bar"
+        style="@style/ProgressBarDef"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/title_map"
+        app:layout_constraintStart_toStartOf="@+id/title_map"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

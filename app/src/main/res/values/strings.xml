@@ -9,4 +9,6 @@
     <string name="settings_disabled">Settings disabled</string>
     <string name="location_disabled">Location disabled</string>
     <string name="server_error">Server error</string>
+    <string name="login_failure">Login failure</string>
+    <string name="your_loged_in_as_guest">You logged in as a Guest</string>
 </resources>

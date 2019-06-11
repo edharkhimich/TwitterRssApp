@@ -6,6 +6,7 @@
     <dimen name="screen_standard_margin">8dp</dimen>
     <dimen name="screen_margin60">60dp</dimen>
     <dimen name="screen_margin185">185dp</dimen>
+    <dimen name="screen_margin250">250dp</dimen>
 
 
 </resources>

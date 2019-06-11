@@ -11,10 +11,16 @@ object Constants {
 
     //Mode
     const val GPS_MODE: Byte = 0
+    const val USER_MODE: Byte = 1
+    const val GUEST_MODE: Byte = 2
 
     //Keys
     const val LOCATION_KEY = "location"
     const val TOKEN_KEY = "token_key"
     const val SECRET_KEY = "secret_key"
+    const val MODE_KEY = "mode_key"
+
+    //Common
+    const val DEF = ""
 
 }
