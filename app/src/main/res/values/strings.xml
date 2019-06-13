@@ -11,4 +11,6 @@
     <string name="server_error">Server error</string>
     <string name="login_failure">Login failure</string>
     <string name="your_loged_in_as_guest">You logged in as a Guest</string>
+    <string name="enter_text">Enter text</string>
+    <string name="tweets_near_you">Tweets near you</string>
 </resources>

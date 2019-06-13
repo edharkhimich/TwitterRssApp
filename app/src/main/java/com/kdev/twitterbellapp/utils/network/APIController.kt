@@ -21,6 +21,14 @@ class APIController constructor(serviceInjection: ServiceInterface) : ServiceInt
         service.getTweetsByLocation(accessToken, lat, long, completionHandler, radius)
     }
 
+    override suspend fun getTweetsByQuery(
+        accessToken: String?,
+        query: String,
+        completionHandler: (response: JSONObject?) -> Unit
+    ) {
+        service.getTweetsByQuery(accessToken, query, completionHandler)
+    }
+
     private val service: ServiceInterface = serviceInjection
 
 }

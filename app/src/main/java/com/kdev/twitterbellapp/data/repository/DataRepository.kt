@@ -16,4 +16,5 @@ interface DataRepository {
 
     suspend fun fetchTweetsByLocation(lat: Double, long: Double): Response<Any>?
     suspend fun fetchTweetsPlaces(lat: Double, long: Double): Response<Any>?
+    suspend fun fetchTweetsByQuery(query: String): Response<Any>?
 }

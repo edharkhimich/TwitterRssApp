@@ -11,4 +11,6 @@ interface ServiceInterface {
 
     suspend fun getTweetsPlaces(basicAuthHeader: String?, lat: Double, long: Double, completionHandler: (response: JSONObject?) -> Unit)
 
+    suspend fun getTweetsByQuery(accessToken: String?, query: String, completionHandler: (response: JSONObject?) -> Unit)
+
 }

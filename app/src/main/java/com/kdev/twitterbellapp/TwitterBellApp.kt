@@ -35,11 +35,6 @@ class TwitterBellApp: Application() {
             return field
         }
 
-    fun <T> addToRequestQueue(request: Request<T>, tag: String) {
-        request.tag = if (TextUtils.isEmpty(tag)) TAG else tag
-        requestQueue?.add(request)
-    }
-
     fun <T> addToRequestQueue(request: Request<T>) {
         request.tag = TAG
         requestQueue?.add(request)

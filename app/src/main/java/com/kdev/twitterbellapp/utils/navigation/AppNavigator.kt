@@ -16,6 +16,7 @@ class AppNavigator(private val activity: FragmentActivity) {
 
     fun navigateToTitleActivity(args: Bundle) {
         controller.startActivity(TitleActivity::class.java, args)
+        controller.finishActivity()
     }
 
 

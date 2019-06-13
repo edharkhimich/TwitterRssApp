@@ -51,6 +51,10 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$rootProject.googleMapsPlayServeciesVer"
     implementation "com.google.android.gms:play-services-location:$rootProject.googleMapsVer"
 
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVer"
+    annotationProcessor "com.github.bumptech.glide:compiler:$rootProject.glideVer"
+
     //Tests
     testImplementation "junit:junit:$rootProject.jUnitVer"
     androidTestImplementation "androidx.test:runner:$rootProject.testRunnerVer"

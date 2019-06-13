@@ -63,12 +63,9 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
     fun isDeviceReadyToGetLocation() = isLocationPermissionGranted() && isGpsEnabled()
 
     fun requestLastKnownLocation() {
-        Timber.d("requestLastKnownLocation()")
         if (isLocationPermissionGranted() && isGpsEnabled()) {
-            Timber.d("isLocationPermissionGranted() && isGpsEnabled()")
             retrieveLastKnownLocation()
         } else {
-            Timber.d("isLocationPermissionGranted() && isGpsEnabled() == false")
             checkLocationPermission()
         }
     }
@@ -157,7 +154,6 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
 
     @SuppressLint("MissingPermission")
     private fun requestLocationUpdates() {
-        Timber.d("requestLocationUpdates")
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult == null) {
@@ -168,7 +164,7 @@ abstract class BaseActivity<VM : BaseViewModel>(private val viewModelClass: Clas
                 fusedLocationClient.removeLocationUpdates(locationCallback)
             }
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */)
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -18,29 +18,31 @@ buildscript {
         archLifecycleVer = '2.2.0-alpha01'
         archLifecycleCompilerVer = '2.2.0-alpha01'
         archLifecycleExtensionsVer = '2.2.0-alpha01'
-        volleyVer = '1.1.1'
 
         //3rd
         timberVer = '4.7.1'
         twitterVer = '3.1.1'
+        volleyVer = '1.1.1'
+        glideVer = '4.9.0'
+
     }
 
     repositories {
         google()
+        mavenCentral()
         jcenter()
         
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$buildGradlePluginVer"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVer"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         
     }
