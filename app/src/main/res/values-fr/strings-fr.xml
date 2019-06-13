@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TwitterBellApp</string>
+    <string name="no_internet_connection">Pas de connexion internet</string>
+    <string name="failed_to_get_device_location">Impossible d\'obtenir l\'emplacement de l\'appareil</string>
+    <string name="cancel">Annuler</string>
+    <string name="enable_location">Activer l\'emplacement</string>
+    <string name="enable_location_description">S\'il vous plaît activez votre emplacement pour le travail d\'application correct</string>
+    <string name="enable">Permettre</string>
+    <string name="settings_disabled">Réglages désactivés</string>
+    <string name="location_disabled">Emplacement désactivé</string>
+    <string name="server_error">Erreur de serveur</string>
+    <string name="login_failure">Échec de la connexion</string>
+    <string name="your_loged_in_as_guest">Vous vous êtes connecté en tant qu\'Invité</string>
+    <string name="enter_text">Saisir du texte</string>
+    <string name="tweets_near_you">Tweets près de chez vous</string>
+    <string name="token_generated">Jeton généré</string>
+
+</resources>
