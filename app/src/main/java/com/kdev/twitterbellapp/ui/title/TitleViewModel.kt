@@ -18,6 +18,7 @@ class TitleViewModel(prefsManager: PrefsManager): BaseViewModel(prefsManager) {
             when(result){
                 is Response.Search.TweetReceived -> {
                     saveTweetDetails(result.data)
+                    fetchTweetPlaces(lat, long)
 
                 }
                 is Response.Search.TweetFailure -> response.value = result
@@ -25,8 +26,8 @@ class TitleViewModel(prefsManager: PrefsManager): BaseViewModel(prefsManager) {
         }
     }
 
-    private fun fetchTweetPlaces(lat: Double, long: Double){
-        val result = dataRepository
+    private suspend fun fetchTweetPlaces(lat: Double, long: Double){
+        val result = dataRepository.fetchTweetsPlaces(lat, long)
     }
 
     private fun saveTweetDetails(list: Statuses){

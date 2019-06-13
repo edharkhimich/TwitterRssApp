@@ -29,9 +29,7 @@ class ServiceVolley : ServiceInterface {
             BASE_URL + OAUTH2 + GRANT_TYPE + "client_credentials",
             null,
             Response.Listener<JSONObject> { response -> completionHandler(response) },
-            Response.ErrorListener { error ->
-                error
-            }
+            Response.ErrorListener { completionHandler(null)}
         ) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
@@ -54,13 +52,8 @@ class ServiceVolley : ServiceInterface {
     ) {
         val url = BASE_URL + SEARCH + GEOCODE + lat + "," + long + "," + radius + "km"
         val jsonObjReq = object : JsonObjectRequest(Method.GET, url, null,
-            Response.Listener<JSONObject> { response ->
-                completionHandler.invoke(response)
-            },
-            Response.ErrorListener { error ->
-                error
-                completionHandler.invoke(null)
-            }) {
+            Response.Listener<JSONObject> { response -> completionHandler.invoke(response) },
+            Response.ErrorListener { completionHandler.invoke(null) }) {
 
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
@@ -72,5 +65,14 @@ class ServiceVolley : ServiceInterface {
         }
 
         TwitterBellApp.instance?.addToRequestQueue(jsonObjReq)
+    }
+
+    override suspend fun getTweetsPlaces(
+        basicAuthHeader: String?,
+        lat: Double,
+        long: Double,
+        completionHandler: (response: JSONObject?) -> Unit) {
+        //Todo Issue with get user-context token
+
     }
 }

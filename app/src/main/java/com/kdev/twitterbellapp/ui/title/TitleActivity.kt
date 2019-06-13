@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_title.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.kdev.twitterbellapp.utils.Constants.ZOOM_VALUE
+import com.kdev.twitterbellapp.utils.manager.PrefsManager
 
 
 class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), OnMapReadyCallback {

@@ -75,10 +75,7 @@ class DataRepositoryImpl constructor(private val prefs: PrefsManager) : DataRepo
                     if (_response != null) {
                         val gson = GsonUtils.getInstance().gson
                         if(gson != null){
-                            val jsonParser = JsonParser()
-                            val jsonObject= jsonParser.parse(_response.toString()) as JsonObject
-//                            val jsonString = gson.toJson(_response.to)
-
+                            val jsonObject= JsonParser().parse(_response.toString()) as JsonObject
                             val type = object : TypeToken<Statuses>() {}.type
                             val tweetStatuses = gson.fromJson<Statuses>(jsonObject, type)
                             it.resume(Response.Search.TweetReceived(tweetStatuses))
@@ -88,6 +85,13 @@ class DataRepositoryImpl constructor(private val prefs: PrefsManager) : DataRepo
             }
         }
         return result
+    }
+
+    override suspend fun fetchTweetsPlaces(lat: Double, long: Double): Response<Any>? {
+        apiController.getTweetsPlaces(getAuthorizationHeader(prefs.consumerKey, prefs.consumerSecret), lat, long, completionHandler = { response ->
+
+        })
+        return Response.Search.TweetFailure()
     }
 
     fun getBearerToken(basicAuthHeader: String?, completionHandler: (response: JSONObject?) -> Unit) {

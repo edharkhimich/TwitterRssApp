@@ -13,8 +13,7 @@ interface DataRepository {
     fun saveAuthData(token: String, secret: String)
     fun getAuthToken(): String?
     fun getBearerToken(): String?
-//    fun removeToken()
 
-//    fun fetchTweetsByLocation(): Response<TwitterPlace>
     suspend fun fetchTweetsByLocation(lat: Double, long: Double): Response<Any>?
+    suspend fun fetchTweetsPlaces(lat: Double, long: Double): Response<Any>?
 }
