@@ -15,7 +15,6 @@ import com.kdev.twitterbellapp.utils.Constants.LOCATION_KEY
 import com.kdev.twitterbellapp.utils.Constants.MODE_KEY
 import com.kdev.twitterbellapp.utils.view.showToast
 import kotlinx.android.synthetic.main.activity_title.*
-import timber.log.Timber
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.kdev.twitterbellapp.utils.Constants.ZOOM_VALUE
@@ -56,8 +55,7 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
         vm?.let { _vm ->
             _vm.getObservableLastKnownDeviceLocation().observe(this, Observer { location ->
                 if (location == null) {
-                    Timber.d("location == null")
-                    showToast("Np location")
+                    showToast(getString(R.string.failed_to_get_device_location))
                 } else bindMap(location)
             })
         }
@@ -83,7 +81,8 @@ class TitleActivity: BaseActivity<TitleViewModel> (TitleViewModel::class.java), 
     }
 
     private fun bindMap(location: Location){
-        vm?.fetchData(location)
+        vm?.fetchTweetsByLocation(location.latitude.toDouble(), location.longitude.toDouble())
+//        vm?.fetchByQuery(consumerKey, consumerSecret,"fa")
         animateMap(location)
     }
 

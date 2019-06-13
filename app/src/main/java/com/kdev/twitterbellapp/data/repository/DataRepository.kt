@@ -2,6 +2,7 @@ package com.kdev.twitterbellapp.data.repository
 
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
+import com.kdev.twitterbellapp.utils.callback.Response
 
 interface DataRepository {
 
@@ -10,7 +11,10 @@ interface DataRepository {
     fun setLastKnownDeviceLocation(location: Location?)
 
     fun saveAuthData(token: String, secret: String)
-    fun getToken(): String?
+    fun getAuthToken(): String?
+    fun getBearerToken(): String?
+//    fun removeToken()
 
-    fun fetchTweetsByLocation()
+//    fun fetchTweetsByLocation(): Response<TwitterPlace>
+    suspend fun fetchTweetsByLocation(lat: Double, long: Double): Response<Any>?
 }

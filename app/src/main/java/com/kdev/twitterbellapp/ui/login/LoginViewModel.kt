@@ -13,7 +13,7 @@ class LoginViewModel(prefsManager: PrefsManager) : BaseViewModel(prefsManager) {
 
     /** Check if the user is already logged in */
     fun checkToken() {
-        val result = dataRepository.getToken()
+        val result = dataRepository.getAuthToken()
 
         response.value = if(result != null && result != DEF)
             Response.Login.TokenReceived()

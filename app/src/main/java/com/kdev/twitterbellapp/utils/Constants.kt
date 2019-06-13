@@ -16,9 +16,10 @@ object Constants {
 
     //Keys
     const val LOCATION_KEY = "location"
-    const val TOKEN_KEY = "token_key"
+    const val AUTH_TOKEN_KEY = "token_key"
     const val SECRET_KEY = "secret_key"
     const val MODE_KEY = "mode_key"
+    const val BEARER_TOKEN_KEY = "bearer_token"
 
     //Map
     const val ZOOM_VALUE = 14f

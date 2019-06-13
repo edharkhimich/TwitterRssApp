@@ -1,14 +1,16 @@
 package com.kdev.twitterbellapp
 
 import android.app.Application
+import android.text.TextUtils
 import android.util.Log
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import com.twitter.sdk.android.core.Twitter
 import timber.log.Timber
 import com.twitter.sdk.android.core.TwitterAuthConfig
 import com.twitter.sdk.android.core.DefaultLogger
 import com.twitter.sdk.android.core.TwitterConfig
-
-
 
 class TwitterBellApp: Application() {
 
@@ -22,6 +24,36 @@ class TwitterBellApp: Application() {
         Twitter.initialize(config)
 
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        instance = this
+    }
 
+    val requestQueue: RequestQueue? = null
+        get() {
+            if (field == null) {
+                return Volley.newRequestQueue(applicationContext)
+            }
+            return field
+        }
+
+    fun <T> addToRequestQueue(request: Request<T>, tag: String) {
+        request.tag = if (TextUtils.isEmpty(tag)) TAG else tag
+        requestQueue?.add(request)
+    }
+
+    fun <T> addToRequestQueue(request: Request<T>) {
+        request.tag = TAG
+        requestQueue?.add(request)
+    }
+
+    fun cancelPendingRequests(tag: Any) {
+        if (requestQueue != null) {
+            requestQueue!!.cancelAll(tag)
+        }
+    }
+
+    companion object {
+        private val TAG = TwitterBellApp::class.java.simpleName
+        @get:Synchronized var instance: TwitterBellApp? = null
+            private set
     }
 }
