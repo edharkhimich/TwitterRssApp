@@ -54,4 +54,10 @@ class TitleViewModel(prefsManager: PrefsManager): BaseViewModel(prefsManager) {
             }
         }
     }
+
+    fun generateBearer() {
+        viewModelScope.launch {
+            response.value = dataRepository.generateBearerToken()
+        }
+    }
 }

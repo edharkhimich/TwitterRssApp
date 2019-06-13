@@ -54,11 +54,11 @@ class TitleActivity : BaseActivity<TitleViewModel>(TitleViewModel::class.java), 
 
     private fun init() {
         if (isInternetConnected()) {
+            vm?.generateBearer()
             setUpToolbar()
             bindRecView()
             mapFragment?.getMapAsync(this)
         } else showToast(getString(R.string.no_internet_connection))
-        title_progress_bar.visibility = GONE
     }
 
     private fun bindRecView(){
@@ -86,7 +86,10 @@ class TitleActivity : BaseActivity<TitleViewModel>(TitleViewModel::class.java), 
                 when(it){
                     is Response.Search.TweetByQueryReceived -> handleTweets(it.data)
                     is Response.Search.TweetFailure -> showToast(getString(R.string.server_error))
+                    is Response.Login.TokenFailed -> showToast(getString(R.string.server_error))
+                    is Response.Login.TokenReceived -> showToast(getString(R.string.token_generated))
                 }
+                title_progress_bar.visibility = GONE
             })
             _vm.getObservableLastKnownDeviceLocation().observe(this, Observer { location ->
                 if (location == null) {

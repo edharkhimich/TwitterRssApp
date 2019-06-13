@@ -130,58 +130,74 @@ class DataRepositoryImpl constructor(private val prefs: PrefsManager) : DataRepo
         }
     }
 
-    override suspend fun fetchTweetsByQuery(query: String): Response<Any>? {
-        var result: Response<Any>? = null
-        if (getBearerToken().isNullOrEmpty()) {
-            val authHeader = getAuthorizationHeader(prefs.consumerKey, prefs.consumerSecret)
-            getBearerToken(authHeader) { response ->
-                GlobalScope.launch {
-                    result = if (response != null) {
-                        val tkn = response.getString(ACCESS_TOKEN)
-                        prefs.saveString(BEARER_TOKEN_KEY, tkn)
-                        getTweetsByQuery(tkn, query)
-                    } else Response.Search.TweetFailure()
-                }
-            }
-        } else result = getTweetsByQuery(getBearerToken()!!, query)
-        return result
-    }
-
-    private suspend fun getTweetsByQuery(token: String, query: String): Response<Any>? {
+    override suspend fun generateBearerToken(): Response<Any>? {
         val result: Response<Any>?
         result = suspendCoroutine<Response<Any>> {
-            GlobalScope.launch {
-                apiController.getTweetsByQuery(token, query) { _response ->
-                    if (_response != null) {
-                        val gson = GsonUtils.getInstance().gson
-                        if (gson != null) {
-                            val jsonObject = JsonParser().parse(_response.toString()) as JsonObject
-                            val type = object : TypeToken<Statuses>() {}.type
-                            val tweetStatuses = gson.fromJson<Statuses>(jsonObject, type)
-                            it.resume(Response.Search.TweetReceived(tweetStatuses))
-                        } else it.resume(Response.Search.TweetFailure())
-                    }
-                }
+            val authHeader = getAuthorizationHeader(prefs.consumerKey, prefs.consumerSecret)
+            getBearerToken(authHeader) { response ->
+                if (response != null) {
+                    val tkn = response.getString(ACCESS_TOKEN)
+                    prefs.saveString(BEARER_TOKEN_KEY, tkn)
+                    it.resume(Response.Login.TokenReceived())
+                } else it.resume(Response.Login.TokenFailed())
             }
         }
         return result
     }
 
-    override fun saveAuthData(token: String, secret: String) {
-        prefs.run {
-            saveString(AUTH_TOKEN_KEY, token)
-            saveString(SECRET_KEY, secret)
+
+override suspend fun fetchTweetsByQuery(query: String): Response<Any>? {
+    var result: Response<Any>? = null
+    if (getBearerToken().isNullOrEmpty()) {
+        val authHeader = getAuthorizationHeader(prefs.consumerKey, prefs.consumerSecret)
+        getBearerToken(authHeader) { response ->
+            GlobalScope.launch {
+                result = if (response != null) {
+                    val tkn = response.getString(ACCESS_TOKEN)
+                    prefs.saveString(BEARER_TOKEN_KEY, tkn)
+                    getTweetsByQuery(tkn, query)
+                } else Response.Search.TweetFailure()
+            }
+        }
+    } else result = getTweetsByQuery(getBearerToken()!!, query)
+    return result
+}
+
+private suspend fun getTweetsByQuery(token: String, query: String): Response<Any>? {
+    val result: Response<Any>?
+    result = suspendCoroutine<Response<Any>> {
+        GlobalScope.launch {
+            apiController.getTweetsByQuery(token, query) { _response ->
+                if (_response != null) {
+                    val gson = GsonUtils.getInstance().gson
+                    if (gson != null) {
+                        val jsonObject = JsonParser().parse(_response.toString()) as JsonObject
+                        val type = object : TypeToken<Statuses>() {}.type
+                        val tweetStatuses = gson.fromJson<Statuses>(jsonObject, type)
+                        it.resume(Response.Search.TweetReceived(tweetStatuses))
+                    } else it.resume(Response.Search.TweetFailure())
+                }
+            }
         }
     }
+    return result
+}
 
-    override fun getAuthToken(): String? = prefs.receiveString(AUTH_TOKEN_KEY, DEF)
-
-    override fun getBearerToken(): String? = prefs.receiveString(BEARER_TOKEN_KEY, DEF)
-
-    companion object : SingletonHolder<DataRepositoryImpl, PrefsManager>(::DataRepositoryImpl) {
-        const val BEARER = "Bearer "
-        const val ACCESS_TOKEN = "access_token"
-        const val UTF_8 = "UTF-8"
-        const val BASIC = "Basic "
+override fun saveAuthData(token: String, secret: String) {
+    prefs.run {
+        saveString(AUTH_TOKEN_KEY, token)
+        saveString(SECRET_KEY, secret)
     }
+}
+
+override fun getAuthToken(): String? = prefs.receiveString(AUTH_TOKEN_KEY, DEF)
+
+override fun getBearerToken(): String? = prefs.receiveString(BEARER_TOKEN_KEY, DEF)
+
+companion object : SingletonHolder<DataRepositoryImpl, PrefsManager>(::DataRepositoryImpl) {
+    const val BEARER = "Bearer "
+    const val ACCESS_TOKEN = "access_token"
+    const val UTF_8 = "UTF-8"
+    const val BASIC = "Basic "
+}
 }

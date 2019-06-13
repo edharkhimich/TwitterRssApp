@@ -14,4 +14,6 @@
     <string name="your_loged_in_as_guest">Vous vous êtes connecté en tant qu\'Invité</string>
     <string name="enter_text">Saisir du texte</string>
     <string name="tweets_near_you">Tweets près de chez vous</string>
+    <string name="token_generated">Jeton généré</string>
+
 </resources>

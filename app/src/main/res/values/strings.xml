@@ -13,4 +13,5 @@
     <string name="your_loged_in_as_guest">You logged in as a Guest</string>
     <string name="enter_text">Enter text</string>
     <string name="tweets_near_you">Tweets near you</string>
+    <string name="token_generated">Token generated</string>
 </resources>
